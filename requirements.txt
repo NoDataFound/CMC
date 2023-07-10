@@ -6,3 +6,4 @@ Pillow
 GitPython
 beautifulsoup4
 matplotlib
+gitleaks-py
