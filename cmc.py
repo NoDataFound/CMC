@@ -102,6 +102,12 @@ def get_user_repos(user):
 def main():
     st.set_page_config(layout="wide")  # For wide layout
     logo_url = 'https://raw.githubusercontent.com/NoDataFound/CMC/main/githublogo.png'
+
+    st.markdown(
+    f"<div style='text-align: center'><img src='{logo_url}'></div>", 
+    unsafe_allow_html=True,
+    )
+
     total_lines = 0
   
     lang_ext = {
