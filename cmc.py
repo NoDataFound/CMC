@@ -143,9 +143,7 @@ def main():
             if not is_repo_processed(progress_filename, repo):  
                
                 lines = clone_and_count_lines(user, repo, lang_ext[language])
-                run_secrets = st.checkbox('Look for secrets?', key='run_secrets_key')
-                if run_secrets:
-                    run_gitleaks(user, repo)
+                
                 data.append([user, repo, lines, language])
                 total_lines += lines
                 metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 {language}: {total_lines}')
@@ -164,6 +162,9 @@ def main():
         cols = st.columns(2)  
         
         show_secrets = st.checkbox('Show secrets', key='show_secrets_key')
+        run_secrets = st.checkbox('Look for secrets?', key='run_secrets_key')
+                if run_secrets:
+                    run_gitleaks(user, repo)
         if show_secrets:
             secrets_file = f"{user}_secrets.txt"
             if os.path.exists(secrets_file):
