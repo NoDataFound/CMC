@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 import json
 import matplotlib.pyplot as plt
 import subprocess
-import subprocess
 import sys
 
 
