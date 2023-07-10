@@ -141,8 +141,7 @@ def main():
             else:
                 processing_message.code(f'Skipping {repo}, already processed...')
             progress_bar.progress((i + 1) / len(repos))  
-        df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language', 'Description', 'Created At', 'Repo Language'])
-        #df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language'])
+        df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language'])
         st.dataframe(df)  
         st.sidebar.dataframe(df)
             
