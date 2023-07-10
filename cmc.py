@@ -154,10 +154,10 @@ def main():
                 processing_message.code(f'Skipping {repo}, already processed...')
             progress_bar.progress((i + 1) / len(repos))  
         df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language'])
-        st.dataframe(df)  
+        #st.dataframe(df)  
         st.sidebar.dataframe(df)
             
-        fig0 = px.parallel_categories(df, color="Lines of Code", color_continuous_scale=px.colors.sequential.Inferno)
+        fig0 = px.parallel_categories(df, color="Lines of Code", dimensions=['User', 'Repo', 'Lines of Code', 'Language'], color_continuous_scale=px.colors.sequential.Inferno)
         st.plotly_chart(fig0, use_container_width=True)
         cols = st.columns(2)  
         
