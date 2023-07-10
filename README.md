@@ -12,4 +12,4 @@ pip3 install -r requirements.txt
 streamlit run cmc.py
 ```
 
-<img width="1622" alt="Screenshot 2023-07-09 at 11 10 14 PM" src="https://github.com/NoDataFound/CMC/assets/3261849/28ac55c7-1759-428c-a44f-cc07b7a10572">
+<img width="1792" alt="Screenshot 2023-07-10 at 1 59 15 PM" src="https://github.com/NoDataFound/CMC/assets/3261849/f75720c0-b31e-4c9c-a172-54acff7d495f">
