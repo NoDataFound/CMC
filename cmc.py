@@ -175,8 +175,10 @@ def main():
                 run_gitleaks(user, x)
         if show_secrets:
             secrets_file = f"{user}_secrets.txt"
-            open(secrets_file, 'r') as secrets:
+            with open(secrets_file, 'r') as f:
+                secrets = f.read()
                 st.code(secrets)
+                st.markdown(f'<a href="{secrets_file}" download>Download {user} secrets</a>', unsafe_allow_html=True)
             if os.path.exists(secrets_file):
                 with open(secrets_file, 'r') as f:
                     secrets = f.read()
