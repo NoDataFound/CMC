@@ -38,9 +38,10 @@ def clone_and_count_lines(user, repo, ext):
     
     return lines
 
-def update_progress_file(filename, repo_name):
+def update_progress_file(filename, repo, repo_name, total_lines, repo_metrics_message):
     with open(filename, 'a') as f:
-        f.write(repo_name + '\n')
+        #f.write(repo_name + '\n')
+        f.write(f"{repo},{repo_name},{total_lines},{repo_metrics_message}\n")
 
 def is_repo_processed(filename, repo_name):
     if not os.path.exists(filename):
@@ -136,7 +137,8 @@ def main():
                 metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 {language}: {total_lines}')
                 repo_metrics_message.success(f'𝖳𝗈𝗍𝖺𝗅 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈𝗋𝗂𝖾𝗌: {i+1}')
                 processing_message.code(f'Processing {repo}')
-                update_progress_file(progress_filename, repo)  
+                update_progress_file(progress_filename, repo)
+                update_progress_file(progress_filename, repo, repo_name, total_lines, repo_metrics_message)
             else:
                 processing_message.code(f'Skipping {repo}, already processed...')
             progress_bar.progress((i + 1) / len(repos))  
