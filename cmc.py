@@ -163,8 +163,8 @@ def main():
         
         show_secrets = st.checkbox('Show secrets', key='show_secrets_key')
         run_secrets = st.checkbox('Look for secrets?', key='run_secrets_key')
-                if run_secrets:
-                    run_gitleaks(user, repo)
+        if run_secrets:
+            run_gitleaks(user, repo)
         if show_secrets:
             secrets_file = f"{user}_secrets.txt"
             if os.path.exists(secrets_file):
