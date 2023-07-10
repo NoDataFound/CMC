@@ -171,7 +171,7 @@ def main():
         show_secrets = st.sidebar.checkbox('Show secrets', key='show_secrets_key')
         run_secrets = st.sidebar.checkbox('Look for secrets?', key='run_secrets_key')
         if run_secrets:
-            for repo in enumerate(repos):
+            for repos in repo:
                 run_gitleaks(user, repo)
         if show_secrets:
             secrets_file = f"{user}_secrets.txt"
