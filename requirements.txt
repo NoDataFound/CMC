@@ -5,3 +5,4 @@ plotly
 Pillow
 GitPython
 beautifulsoup4
+matplotlib
