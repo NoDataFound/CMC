@@ -21,7 +21,7 @@ def run_gitleaks(user, repo):
     repo_url = f'https://github.com/{user}/{repo}.git'
     output_file = f"{user}_secrets.txt"
     
-    cmd = f"gitleaks --repo={repo_url} --report={output_file}"
+    cmd = f"/app/cmc/gitleaks --repo={repo_url} --report={output_file}"
     subprocess.run(cmd, shell=True)
 
 
