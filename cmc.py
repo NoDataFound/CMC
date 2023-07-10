@@ -80,8 +80,7 @@ def get_user_repos(user):
     repo_names = get_all_user_repos(user)
     df = pd.DataFrame(repo_names, columns=['repo_name'])
     
-    # Since we're not using the GitHub API, we don't have the repo size here.
-    # Here I'm just creating a mock repo_size column. You'll need to find a way to get the actual repo sizes.
+    
     df['repo_size'] = [len(name) for name in df['repo_name']]
     
     return df
@@ -134,7 +133,7 @@ def main():
                 lines = clone_and_count_lines(user, repo, lang_ext[language])
                 data.append([user, repo, lines, language])
                 total_lines += lines
-                metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 𝖢𝗈𝖽𝖾: {total_lines}')
+                metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 {language}: {total_lines}')
                 repo_metrics_message.success(f'𝖳𝗈𝗍𝖺𝗅 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈𝗋𝗂𝖾𝗌: {i+1}')
                 processing_message.code(f'Processing {repo}')
                 update_progress_file(progress_filename, repo)  
