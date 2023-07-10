@@ -40,7 +40,7 @@ def clone_and_count_lines(user, repo, ext):
 
 def update_progress_file(filename, repo):
     with open(filename, 'a') as f:
-        f.write(repo_name + '\n')
+        f.write(repo + '\n')
         #f.write(f"{repo},{repo_name},{total_lines},{repo_metrics_message}\n")
 
 def is_repo_processed(filename, repo_name):
