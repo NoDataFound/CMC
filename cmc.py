@@ -8,8 +8,12 @@ from PIL import Image
 from git import Repo
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import json
+import matplotlib.pyplot as plt
 
-@st.cache_data()
+
+
+
 def count_lines_of_code(repo_path, ext):
     total = 0
     for path, dirs, files in os.walk(repo_path):
@@ -45,14 +49,44 @@ def is_repo_processed(filename, repo_name):
         lines = f.read().splitlines()
     return repo_name in lines
 
+
+
+
+     # For wide layout
 def get_all_user_repos(user):
-    response = requests.get(f'https://github.com/{user}?tab=repositories')
+    page = 1
     repos = []
-    if response.status_code == 200:
+
+    while True:
+        response = requests.get(f'https://github.com/{user}?page={page}&tab=repositories')
+        
+        if response.status_code != 200:
+            break
+
         soup = BeautifulSoup(response.text, 'html.parser')
         repo_elements = soup.find_all('a', itemprop='name codeRepository')
-        repos = [repo.text.strip() for repo in repo_elements]
+        
+        if not repo_elements:  # If no more repos found, stop looping
+            break
+
+        page_repos = [repo.text.strip() for repo in repo_elements]
+        repos.extend(page_repos)
+        
+        page += 1
+
     return repos
+
+def get_user_repos(user):
+    repo_names = get_all_user_repos(user)
+    df = pd.DataFrame(repo_names, columns=['repo_name'])
+    
+    # Since we're not using the GitHub API, we don't have the repo size here.
+    # Here I'm just creating a mock repo_size column. You'll need to find a way to get the actual repo sizes.
+    df['repo_size'] = [len(name) for name in df['repo_name']]
+    
+    return df
+
+
 
 def main():
     st.set_page_config(layout="wide")  # For wide layout
@@ -81,26 +115,35 @@ def main():
         language = st.selectbox('Select Language', list(lang_ext.keys())) 
 
     if user and language:
-        st.sidebar.code(f'Fetching repositories for {user}...')
+        st.sidebar.success(f'Fetching repositories for {user}')
         repos = get_all_user_repos(user)
         #st.sidebar.code(f'Found {len(repos)} repositories for {user}.')
         data = []
         progress_bar = st.progress(0)
         progress_filename = f"{user}_progress.txt"
+        df.to_csv('progress.csv', index=False)
         processing_message = st.empty()
-        total_lines_metric = st.empty()
+        metrics_message = st.empty()
+        repo_metrics_message = st.empty()
+        
+
+        
         for i, repo in enumerate(repos):
             if not is_repo_processed(progress_filename, repo):  
-                processing_message.code(f'Processing {repo}...')
+               
                 lines = clone_and_count_lines(user, repo, lang_ext[language])
                 data.append([user, repo, lines, language])
                 total_lines += lines
-                total_lines_metric.metric(label="Total Lines of Code", value=total_lines)
+                metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 𝖢𝗈𝖽𝖾: {total_lines}')
+                repo_metrics_message.success(f'𝖳𝗈𝗍𝖺𝗅 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈𝗋𝗂𝖾𝗌: {i+1}')
+                processing_message.code(f'Processing {repo}')
                 update_progress_file(progress_filename, repo)  
             else:
                 processing_message.code(f'Skipping {repo}, already processed...')
             progress_bar.progress((i + 1) / len(repos))  
-        df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language'])
+        df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language', 'Description', 'Created At', 'Repo Language'])
+        #df = pd.DataFrame(data, columns=['User', 'Repo', 'Lines of Code', 'Language'])
+        st.dataframe(df)  
         st.sidebar.dataframe(df)
             
         fig0 = px.parallel_categories(df, color="Lines of Code", color_continuous_scale=px.colors.sequential.Inferno)
