@@ -104,7 +104,7 @@ def main():
     logo_url = 'https://raw.githubusercontent.com/NoDataFound/CMC/main/githublogo.png'
 
     st.sidebar.markdown(
-    f"<div style='text-align: center'><img src='{logo_url}' width='25%'></div>", 
+    f"<div style='text-align: center'><img src='{logo_url}' width='33%'></div>", 
     unsafe_allow_html=True,
 )
 
