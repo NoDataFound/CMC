@@ -161,8 +161,8 @@ def main():
         st.plotly_chart(fig0, use_container_width=True)
         cols = st.columns(2)  
         
-        show_secrets = st.checkbox('Show secrets', key='show_secrets_key')
-        run_secrets = st.checkbox('Look for secrets?', key='run_secrets_key')
+        show_secrets = st.sidebar.checkbox('Show secrets', key='show_secrets_key')
+        run_secrets = st.sidebar.checkbox('Look for secrets?', key='run_secrets_key')
         if run_secrets:
             run_gitleaks(user, repo)
         if show_secrets:
