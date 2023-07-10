@@ -127,7 +127,7 @@ def main():
     df = pd.DataFrame(columns=['User', 'Repo', 'Lines of Code', 'Language'])
 
     with st.sidebar:
-        st.image(logo_url, width=200)
+        #st.image(logo_url, width=200)
         #st.title('Lines of Code Counter')
         user = st.text_input('Enter GitHub Username')
         language = st.selectbox('Select Language', list(lang_ext.keys())) 
