@@ -179,13 +179,6 @@ def main():
                 secrets = f.read()
                 st.code(secrets)
                 st.markdown(f'<a href="{secrets_file}" download>Download {user} secrets</a>', unsafe_allow_html=True)
-            if os.path.exists(secrets_file):
-                with open(secrets_file, 'r') as f:
-                    secrets = f.read()
-                st.code(secrets)
-                st.markdown(f'<a href="{secrets_file}" download>Download {user} secrets</a>', unsafe_allow_html=True)
-            else:
-                st.error("No secrets file found. Please run the gitleaks scan.")
         with cols[0]:
             fig1 = px.bar(df, x='Repo', y='Lines of Code', title='Lines of Code per Repository')
             st.plotly_chart(fig1, use_container_width=True)
