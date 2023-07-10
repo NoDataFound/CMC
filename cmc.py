@@ -174,7 +174,8 @@ def main():
             for x in repos:
                 run_gitleaks(user, x)
         if show_secrets:
-            secrets_file = f"{user}_secrets.txt"
+            secrets_file = open(f"{user}_secrets.txt", "r") as secrets:
+            st.code(secrets)
             if os.path.exists(secrets_file):
                 with open(secrets_file, 'r') as f:
                     secrets = f.read()
