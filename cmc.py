@@ -10,8 +10,15 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import json
 import matplotlib.pyplot as plt
+import subprocess
 
+def run_gitleaks(user, repo):
+    repo_url = f'https://github.com/{user}/{repo}.git'
+    output_file = f"{user}_secrets.txt"
 
+    # Run gitleaks
+    cmd = f"gitleaks --repo={repo_url} --report={output_file}"
+    subprocess.run(cmd, shell=True)
 
 
 def count_lines_of_code(repo_path, ext):
@@ -131,13 +138,15 @@ def main():
             if not is_repo_processed(progress_filename, repo):  
                
                 lines = clone_and_count_lines(user, repo, lang_ext[language])
+                run_secrets = st.checkbox('Look for secrets?')
+                if run_secrets:
+                    run_gitleaks(user, repo)
                 data.append([user, repo, lines, language])
                 total_lines += lines
                 metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 {language}: {total_lines}')
                 repo_metrics_message.success(f'𝖳𝗈𝗍𝖺𝗅 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈𝗋𝗂𝖾𝗌: {i+1}')
                 processing_message.code(f'Processing {repo}')
                 update_progress_file(progress_filename, repo)
-                #update_progress_file(progress_filename, repo, repo_name, total_lines, repo_metrics_message)
             else:
                 processing_message.code(f'Skipping {repo}, already processed...')
             progress_bar.progress((i + 1) / len(repos))  
@@ -148,7 +157,16 @@ def main():
         fig0 = px.parallel_categories(df, color="Lines of Code", color_continuous_scale=px.colors.sequential.Inferno)
         st.plotly_chart(fig0, use_container_width=True)
         cols = st.columns(2)  
-        
+        show_secrets = st.checkbox('Show secrets')
+        if show_secrets:
+            secrets_file = f"{user}_secrets.txt"
+            if os.path.exists(secrets_file):
+                with open(secrets_file, 'r') as f:
+                    secrets = f.read()
+                st.code(secrets)
+                st.markdown(f'<a href="{secrets_file}" download>Download {user} secrets</a>', unsafe_allow_html=True)
+            else:
+                st.error("No secrets file found. Please run the gitleaks scan.")
         with cols[0]:
             fig1 = px.bar(df, x='Repo', y='Lines of Code', title='Lines of Code per Repository')
             st.plotly_chart(fig1, use_container_width=True)
