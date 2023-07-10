@@ -137,7 +137,7 @@ def main():
                 metrics_message.info(f'𝖳𝗈𝗍𝖺𝗅 𝖫𝗂𝗇𝖾𝗌 𝗈𝖿 {language}: {total_lines}')
                 repo_metrics_message.success(f'𝖳𝗈𝗍𝖺𝗅 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈𝗋𝗂𝖾𝗌: {i+1}')
                 processing_message.code(f'Processing {repo}')
-                update_progress_file(progress_filename, repo)
+                #update_progress_file(progress_filename, repo)
                 update_progress_file(progress_filename, repo, repo_name, total_lines, repo_metrics_message)
             else:
                 processing_message.code(f'Skipping {repo}, already processed...')
