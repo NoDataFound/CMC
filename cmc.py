@@ -103,7 +103,7 @@ def main():
     st.set_page_config(layout="wide")  # For wide layout
     logo_url = 'https://raw.githubusercontent.com/NoDataFound/CMC/main/githublogo.png'
 
-    st.markdown(
+    st.sidebar.markdown(
     f"<div style='text-align: center'><img src='{logo_url}'></div>", 
     unsafe_allow_html=True,
     )
