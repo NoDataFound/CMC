@@ -1,0 +1,7 @@
+streamlit
+requests
+pandas
+plotly
+Pillow
+GitPython
+beautifulsoup4
