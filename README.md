@@ -1,3 +1,7 @@
+Try it out here: https://countmycode.streamlit.app/
+
+or run it locally
+
 `QuickStart`
 
 ```
