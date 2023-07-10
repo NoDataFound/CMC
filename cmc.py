@@ -15,13 +15,12 @@ import subprocess
 import sys
 
 
-subprocess.check_call([sys.executable, "-m", "pip", "install", "-e", "./gitleaks"])
+
 
 
 def run_gitleaks(user, repo):
     repo_url = f'https://github.com/{user}/{repo}.git'
     output_file = f"{user}_secrets.txt"
-
     
     cmd = f"gitleaks --repo={repo_url} --report={output_file}"
     subprocess.run(cmd, shell=True)
